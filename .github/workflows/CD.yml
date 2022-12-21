@@ -26,4 +26,5 @@ jobs:
             git pull origin master
             git status
             
-            sudo docker-compose up -d --build
+            npm i
+            npm run build
