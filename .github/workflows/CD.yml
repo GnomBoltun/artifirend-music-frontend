@@ -1,0 +1,31 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+    
+  workflow_dispatch:
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+     - name: Deploy using SSH
+       uses: appleboy/ssh-action@master
+       with:
+        host: ${{ secrets.HOST_MY_SERVER }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.PRIVATE_KEY_MY_SERVER }}
+        port: 22
+        script: |
+            cd /home/frontend-music/
+            
+            git pull origin master
+            git status
+            
+            sudo docker-compose up -d --build
